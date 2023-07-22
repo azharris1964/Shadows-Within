@@ -1,31 +1,34 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class Env_Door : MonoBehaviour
 {
-    public float interactionDistance;
-    public GameObject intText;
-    public string doorOpenAnimName, doorCloseAnimName;
-    public AudioClip doorOpen, doorClose;
+    [SerializeField] private float interactionDistance;
+    [SerializeField] private string doorOpenAnimName, doorCloseAnimName;
+    [SerializeField] private GameObject intText;
+    [SerializeField] private AudioClip doorOpen, doorClose;
 
-
-    void Update()
+    private void Update()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
-        RaycastHit hit;
+        Ray ray = new(transform.position, transform.forward);
 
-        if(Physics.Raycast(ray, out hit, interactionDistance))
+        if (!Physics.Raycast(ray, 
+                             out RaycastHit hit,
+                             interactionDistance))
         {
-            if(hit.collider.gameObject.tag == "Door")
+            intText.SetActive(false);
+        }
+        else
+        {
+            if (!hit.collider.gameObject.CompareTag("Door")) intText.SetActive(false);
+            else
             {
                 GameObject doorParent = hit.collider.transform.root.gameObject;
                 Animator doorAnim = doorParent.GetComponent<Animator>();
                 AudioSource doorSound = hit.collider.gameObject.GetComponent<AudioSource>();
                 intText.SetActive(true);
-                if(Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if(doorAnim.GetCurrentAnimatorStateInfo(0).IsName(doorOpenAnimName))
+                    if (doorAnim.GetCurrentAnimatorStateInfo(0).IsName(doorOpenAnimName))
                     {
                         doorAnim.ResetTrigger("Open");
                         doorAnim.SetTrigger("Close");
@@ -41,14 +44,6 @@ public class Door : MonoBehaviour
                     }
                 }
             }
-            else
-            {
-                intText.SetActive(false);
-            }
-        }
-        else
-        {
-            intText.SetActive(false);
         }
     }
 }
