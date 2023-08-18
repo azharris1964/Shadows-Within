@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Door
+  - Footsteps/Wood
+  - Footsteps/Grass
+  - Footsteps/Tile
   layers:
   - Default
   - TransparentFX
@@ -12,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - interactable
   - 
   - 
   - 
