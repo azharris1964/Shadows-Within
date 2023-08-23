@@ -1,18 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SelectorView : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
-    }
+        var selected = EventSystem.current.currentSelectedGameObject;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (selected == null) return;
+
+        transform.position = selected.transform.position;
     }
 }
