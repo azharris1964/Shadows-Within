@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class ItemSlot : MonoBehaviour, ISelectHandler
 {
@@ -10,15 +11,30 @@ public class ItemSlot : MonoBehaviour, ISelectHandler
 
     private InventoryViewController _viewController;
 
+    private Image spawnedItemSprite;
+
     public void OnSelect(BaseEventData eventData)
     {
         _viewController.OnSlotSelected(this);
     }
 
-    private void Awake()
+    private void OnEnable()
     {
         _viewController = FindObjectOfType<InventoryViewController>();
         if (_itemData == null) return;
-        var spawnedSprite = Instantiate<Image>(_itemData.Sprite, transform.position, Quaternion.identity, transform);
+        spawnedItemSprite = Instantiate<Image>(_itemData.Sprite, transform.position, Quaternion.identity, transform);
+    }
+
+    private void OnDisable()
+    {
+        if (spawnedItemSprite != null)
+        {
+            Destroy(spawnedItemSprite);
+        }
+    }
+
+    public bool IsEmpty()
+    {
+        return _itemData == null;
     }
 }
