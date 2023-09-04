@@ -1,12 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using UnityEngine;
 
 public class FirstPersonController : MonoBehaviour
 {
 
-    public bool CanMove { get; private set; } = true;
+    public bool CanMove { get; set; } = true;
     private bool isSprinting => canSprint && Input.GetKey(sprintKey);
     private bool ShouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
     private bool ShouldCrouch => Input.GetKeyDown(crouchKey) && !duringCrouchAnimation && characterController.isGrounded;
@@ -22,12 +22,15 @@ public class FirstPersonController : MonoBehaviour
     [SerializeField] private bool useFootsteps = true;
     [SerializeField] private bool useStamina = true;
 
+    
+
     [Header("Controls")]
     [SerializeField] private KeyCode sprintKey = KeyCode.LeftShift;
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
     [SerializeField] private KeyCode crouchKey = KeyCode.LeftControl;
     [SerializeField] private KeyCode zoomKey = KeyCode.Mouse1;
     [SerializeField] private KeyCode interactKey = KeyCode.Mouse0;
+
 
     [Header("Movement Parameters")]
     [SerializeField] private float walkSpeed = 3.0f;
@@ -198,6 +201,7 @@ public class FirstPersonController : MonoBehaviour
             }
 
             ApplyFinalMovements();
+
         }
     }
 
