@@ -83,13 +83,13 @@ public class PauseManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(pauseKey))
+        if (!isInventory && Input.GetKeyDown(pauseKey))
         {
            isPaused = !isPaused;
             Debug.Log("The game is paused");
         }
 
-        if (Input.GetKeyDown(inventoryKey))
+        if (!isPaused && Input.GetKeyDown(inventoryKey))
         {
             isInventory = !isInventory;
             Debug.Log("The inventory is open");
