@@ -17,5 +17,6 @@ public class EventBus : MonoBehaviour
     public void PickUpItem(ItemData _itemData)
     {
         onPickupItem?.Invoke(_itemData);
+        Debug.Log(_itemData + "has been picked up");
     }
 }
