@@ -34,6 +34,38 @@ public class InventoryViewController : MonoBehaviour
 
     private State _state;
 
+    public void UseItem()
+    {
+        _contextMenuObject.SetActive(false);
+        _inventoryViewObject.SetActive(false);
+        Debug.Log("use lead to closing");
+        EventBus.Instance.UseItem(_currentSlot._itemData);
+        _state = State.menuClosed;
+    }
+
+    /*public void FadeToUseItemCallback()
+    {
+        _contextMenuObject.SetActive(false);
+        _inventoryViewObject.SetActive(false);
+        Debug.Log("use lead to closing");
+        _fader.FadeFromBlack(1f, () => EventBus.Instance.UseItem(_currentSlot._itemData));
+        _state = State.menuClosed;
+    }*/
+
+    public void OnSlotSelected(ItemSlot selectedSlot)
+    {
+        _currentSlot = selectedSlot;
+        if (selectedSlot._itemData == null)
+        {
+            _itemNameText.ClearMesh();
+            _itemDescriptionText.ClearMesh();
+            return;
+        }
+
+        _itemNameText.SetText(selectedSlot._itemData.Name);
+        _itemDescriptionText.SetText(selectedSlot._itemData.Description[0]);
+    }
+
     private void Start()
     {
         Debug.Log(1);
@@ -59,20 +91,6 @@ public class InventoryViewController : MonoBehaviour
         }
     }
 
-    public void OnSlotSelected(ItemSlot selectedSlot)
-    {
-        _currentSlot = selectedSlot;
-        if(selectedSlot._itemData == null)
-        {
-            _itemNameText.ClearMesh();
-            _itemDescriptionText.ClearMesh();
-            return;
-        }
-
-        _itemNameText.SetText(selectedSlot._itemData.Name);
-        _itemDescriptionText.SetText(selectedSlot._itemData.Description[0]);
-    }
-
 
     private void Update()
     {
@@ -90,14 +108,18 @@ public class InventoryViewController : MonoBehaviour
                 _fader.FadeFromBlack(2, FadeFromMenuCallback);
                 _state = State.menuClosed;
             }
-           else if(_state == State.contextMenu && Input.GetKeyDown(KeyCode.Escape))
+        }
+
+        if (_state == State.contextMenu && Input.GetKeyDown(KeyCode.Escape))
+        {
+            Debug.Log("context menu closed");
+            _contextMenuObject.SetActive(false);
+            foreach (var button in _contextMenuIgnore)
             {
-                _contextMenuObject.SetActive(false);
-                foreach (var button in _contextMenuIgnore)
-                {
-                    button.interactable = true;
-                }
+                button.interactable = true;
             }
+            EventSystem.current.SetSelectedGameObject(_currentSlot.gameObject);
+            _state = State.menuOpen;
         }
 
         // opens context menu

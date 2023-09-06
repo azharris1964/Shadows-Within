@@ -9,6 +9,8 @@ public class EventBus : MonoBehaviour
 
     public event Action<ItemData> onPickupItem;
 
+    public event Action<ItemData> onItemUsed;
+
     private void Awake()
     {
         Instance = this;
@@ -18,5 +20,10 @@ public class EventBus : MonoBehaviour
     {
         onPickupItem?.Invoke(_itemData);
         Debug.Log(_itemData + "has been picked up");
+    }
+
+    public void UseItem(ItemData item)
+    {
+        onItemUsed?.Invoke(item);
     }
 }

@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class ScreenFader : MonoBehaviour
 {
-    [SerializeField] private Image _fader;
-    private bool _isBusy;
 
-  
+    public static ScreenFader Instance { get; private set; }
+    [SerializeField] private Image _fader;
+
+    private bool _isBusy;
 
     [ExecuteInEditMode]
     public void FadeToBlack(float duration, Action finishedCallback)
@@ -24,7 +25,10 @@ public class ScreenFader : MonoBehaviour
         StartCoroutine(CO_FadeFromBlack(duration, finishedCallback));
     }
 
-    
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private IEnumerator CO_FadeToBlack(float duration, Action finishedCallback)
     {

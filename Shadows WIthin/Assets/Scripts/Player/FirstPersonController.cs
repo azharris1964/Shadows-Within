@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class FirstPersonController : MonoBehaviour
 {
-
     public bool CanMove { get; set; } = true;
     private bool isSprinting => canSprint && Input.GetKey(sprintKey);
     private bool ShouldJump => Input.GetKeyDown(jumpKey) && characterController.isGrounded;
@@ -156,6 +155,7 @@ public class FirstPersonController : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        
         instance = this;
         playerCamera = GetComponentInChildren<Camera>();
         characterController = GetComponent<CharacterController>();
