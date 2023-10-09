@@ -147,7 +147,7 @@ public class FirstPersonController : MonoBehaviour
         OnTakeDamage += ApplyDamage;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         OnTakeDamage -= ApplyDamage;
     }
@@ -157,6 +157,7 @@ public class FirstPersonController : MonoBehaviour
     {
         
         instance = this;
+        
         playerCamera = GetComponentInChildren<Camera>();
         characterController = GetComponent<CharacterController>();
         defaultYPos = playerCamera.transform.localPosition.y;
@@ -378,7 +379,7 @@ public class FirstPersonController : MonoBehaviour
     private void KillPlayer()
     {
         currentHealth = 0;
-       // OnDamage(currentHealth);
+        OnDamage(currentHealth);
 
         if (regeneratingHealth != null)
             StopCoroutine(regeneratingHealth);
